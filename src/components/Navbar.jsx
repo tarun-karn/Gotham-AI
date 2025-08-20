@@ -66,7 +66,7 @@ const NavBar = () => {
   return (
     <div
       ref={navContainerRef}
-      className="fixed inset-x-0 top-4 z-50 h-16 border-none transition-all duration-700 sm:inset-x-6"
+      className="fixed inset-x-0 top-4 z-50 h-16 border-none transition-all duration-700 sm:inset-x-6 sm:bg-transparent sm:rounded-none bg-black/80 rounded-lg backdrop-blur-md"
     >
       <header className="absolute top-1/2 w-full -translate-y-1/2">
         <nav className="flex size-full items-center justify-between p-4">
@@ -84,7 +84,7 @@ const NavBar = () => {
 
           {/* Navigation Links and Audio Button */}
           <div className="flex h-full items-center">
-            <div className="hidden md:block">
+            <div className="flex md:block">
               {navItems.map((item, index) => {
                 if (item === "Event") {
                   return (
