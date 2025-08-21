@@ -9,6 +9,7 @@ body {
   overflow-x: hidden;
   background-color: #dfdff0;
   font-family: "General Sans", sans-serif;
+  scroll-behavior: smooth;
 }
 
 @layer base {
@@ -48,6 +49,22 @@ body {
   }
 
   .floating-nav {
+    @apply bg-black rounded-lg border;
+  }
+
+  .events-nav {
+    @apply bg-gradient-to-r from-purple-900/95 to-blue-900/95 backdrop-blur-md border-purple-500/30;
+  }
+
+  /* .about-nav {
+    @apply bg-gradient-to-r from-blue-900/95 to-cyan-900/95 backdrop-blur-md border-blue-500/30;
+  } */
+
+  .about-nav {
+    @apply bg-gradient-to-r from-blue-900/95 via-transparent to-cyan-900/95 backdrop-blur-md border-b border-blue-500/30 text-white font-bold drop-shadow-lg;
+  }
+
+  .contact-nav {
     @apply bg-black rounded-lg border;
   }
 
@@ -269,5 +286,35 @@ body {
   50% {
     transform: translateY(66%) scale(0.65);
     opacity: 0.8;
+  }
+}
+
+/* Event Notification Styles */
+.event-notification {
+  animation: slideDown 0.8s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.event-notification .countdown-item {
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
   }
 }

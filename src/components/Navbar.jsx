@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import { TiLocationArrow } from "react-icons/ti";
 
 import Button from "./Button";
-import { Link, NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const navItems = ["Event", "About", "Contact"];
 
@@ -19,8 +19,7 @@ const NavBar = () => {
   const navContainerRef = useRef(null);
 
   const { y: currentScrollY } = useWindowScroll();
-  const [isNavVisible, setIsNavVisible] = useState(true);
-  const [lastScrollY, setLastScrollY] = useState(0);
+  const [activeSection, setActiveSection] = useState('home');
 
   // Toggle audio and visual indicator
   const toggleAudioIndicator = () => {
@@ -37,31 +36,47 @@ const NavBar = () => {
     }
   }, [isAudioPlaying]);
 
+  // Make navbar always visible with floating effect when scrolled and change colors based on section
   useEffect(() => {
-    if (currentScrollY === 0) {
-      // Topmost position: show navbar without floating-nav
-      setIsNavVisible(true);
-      navContainerRef.current.classList.remove("floating-nav");
-    } else if (currentScrollY > lastScrollY) {
-      // Scrolling down: hide navbar and apply floating-nav
-      setIsNavVisible(false);
-      navContainerRef.current.classList.add("floating-nav");
-    } else if (currentScrollY < lastScrollY) {
-      // Scrolling up: show navbar with floating-nav
-      setIsNavVisible(true);
-      navContainerRef.current.classList.add("floating-nav");
-    }
+    const handleScroll = () => {
+      const scrollY = window.scrollY;
+      const windowHeight = window.innerHeight;
+      
+      // Define section positions
+      const heroHeight = windowHeight; // Hero section height
+      const eventsSection = document.getElementById('events');
+      const aboutSection = document.getElementById('about');
+      const contactSection = document.getElementById('contact');
+      
+      // Calculate section positions
+      const eventsTop = eventsSection ? eventsSection.offsetTop - 100 : heroHeight;
+      const aboutTop = aboutSection ? aboutSection.offsetTop - 100 : heroHeight + 1000;
+      const contactTop = contactSection ? contactSection.offsetTop - 100 : heroHeight + 2000;
+      
+      // Determine active section based on scroll position
+      if (scrollY < eventsTop) {
+        setActiveSection('home');
+        navContainerRef.current.classList.remove("floating-nav", "events-nav", "about-nav", "contact-nav");
+      } else if (scrollY >= eventsTop && scrollY < aboutTop) {
+        setActiveSection('events');
+        navContainerRef.current.classList.add("floating-nav", "events-nav");
+        navContainerRef.current.classList.remove("about-nav", "contact-nav");
+      } else if (scrollY >= aboutTop && scrollY < contactTop) {
+        setActiveSection('about');
+        navContainerRef.current.classList.add("floating-nav", "about-nav");
+        navContainerRef.current.classList.remove("events-nav", "contact-nav");
+      } else {
+        setActiveSection('contact');
+        navContainerRef.current.classList.add("floating-nav", "contact-nav");
+        navContainerRef.current.classList.remove("events-nav", "about-nav");
+      }
+    };
 
-    setLastScrollY(currentScrollY);
-  }, [currentScrollY, lastScrollY]);
+    window.addEventListener('scroll', handleScroll);
+    handleScroll(); // Initial call
 
-  useEffect(() => {
-    gsap.to(navContainerRef.current, {
-      y: isNavVisible ? 0 : -100,
-      opacity: isNavVisible ? 1 : 0,
-      duration: 0.2,
-    });
-  }, [isNavVisible]);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [currentScrollY]);
 
   return (
     <div
@@ -72,7 +87,7 @@ const NavBar = () => {
         <nav className="flex size-full items-center justify-between p-4">
           {/* Logo and Product button */}
           <div className="flex items-center gap-7">
-            <Link to="/">
+            <Link to="/" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
               <img src="/img/logo.png" alt="logo" className="w-10 cursor-pointer" />
             </Link>
 
@@ -88,28 +103,31 @@ const NavBar = () => {
           <div className="flex h-full items-center">
             <div className="flex md:block">
               {navItems.map((item, index) => {
-                if (item === "Event") {
-                  return (
-                    <NavLink
-                      key={index}
-                      to="/events"
-                      className={({ isActive }) =>
-                        clsx(
-                          "nav-hover-btn",
-                          isActive && "after:origin-bottom-left after:scale-x-100"
-                        )
-                      }
-                    >
-                      {item}
-                    </NavLink>
-                  );
-                }
-
+                const isActive = (item === "Event" && activeSection === "events") ||
+                               (item === "About" && activeSection === "about") ||
+                               (item === "Contact" && activeSection === "contact");
+                
                 return (
                   <a
                     key={index}
-                    href={`/${"#" + item.toLowerCase()}`}
-                    className="nav-hover-btn"
+                    href={`/#${item.toLowerCase()}`}
+                    className={`nav-hover-btn ${isActive ? 'text-yellow-300 font-semibold' : ''}`}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      let elementId = item.toLowerCase();
+                      
+                      // Handle special case for Event button
+                      if (item === "Event") {
+                        elementId = "events";
+                      }
+                      
+                      const element = document.getElementById(elementId);
+                      console.log('Looking for element with ID:', elementId);
+                      console.log('Found element:', element);
+                      if (element) {
+                        element.scrollIntoView({ behavior: 'smooth' });
+                      }
+                    }}
                   >
                     {item}
                   </a>
