@@ -72,6 +72,7 @@ const Events = () => {
   return (
     <main className="relative min-h-screen w-screen overflow-x-hidden">
       <NavBar />
+      <div className="pointer-events-none absolute inset-x-0 top-0 z-40 h-24 bg-gradient-to-b from-black/60 to-transparent" />
 
       <section className="mx-auto mt-28 max-w-6xl px-5 sm:px-10">
         <div className="flex gap-3">

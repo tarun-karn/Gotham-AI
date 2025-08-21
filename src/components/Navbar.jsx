@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import { TiLocationArrow } from "react-icons/ti";
 
 import Button from "./Button";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 const navItems = ["Event", "About", "Contact"];
 
@@ -72,7 +72,9 @@ const NavBar = () => {
         <nav className="flex size-full items-center justify-between p-4">
           {/* Logo and Product button */}
           <div className="flex items-center gap-7">
-            <img src="/img/logo.png" alt="logo" className="w-10" />
+            <Link to="/">
+              <img src="/img/logo.png" alt="logo" className="w-10 cursor-pointer" />
+            </Link>
 
             {/* <Button
               id="product-button"
@@ -88,9 +90,18 @@ const NavBar = () => {
               {navItems.map((item, index) => {
                 if (item === "Event") {
                   return (
-                    <Link key={index} to="/events" className="nav-hover-btn">
+                    <NavLink
+                      key={index}
+                      to="/events"
+                      className={({ isActive }) =>
+                        clsx(
+                          "nav-hover-btn",
+                          isActive && "after:origin-bottom-left after:scale-x-100"
+                        )
+                      }
+                    >
                       {item}
-                    </Link>
+                    </NavLink>
                   );
                 }
 
