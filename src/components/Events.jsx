@@ -20,15 +20,15 @@ const Events = () => {
   const events = [
     {
       id: 1,
-      title: "NVIDIA AI Session",
-      date: "December 15, 2024",
-      time: "11:30 AM - 1:30 PM",
-      location: "MAC LAB",
+      title: "Tech Summit",
+      date: "October 11, 2025",
+      time: "10:00 AM - 4:00 PM",
+      location: "Jaywant Auditorium,JSPM RSCOE",
       description:
-        "Discover cutting-edge innovations and real-world case studies on how NVIDIA AI is driving breakthroughs across industries.",
+        "Three inspiring speakers share insights on innovation, technology, and future trends featuring a special session on Artificial Intelligence (AI)",
       image: "/img/Nvidia-event.png",
       status: "LIVE NOW",
-      attendees: 150,
+      attendees: 300,
       category: "Technology",
     },
     {
@@ -40,7 +40,7 @@ const Events = () => {
       description: "Something Big is coming.",
       image: "/img/upcomingevent.jpg",
       status: "UPCOMING",
-      attendees: 200,
+      attendees: TBD,
       // category: "Gam",
     },
     // {
