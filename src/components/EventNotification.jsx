@@ -18,12 +18,12 @@ const EventNotification = () => {
 
   // Sample current event data
   const currentEvent = {
-    title: "NVIDIA AI Session",
-    date: "September 15, 2025",
-    time: "11:30 AM - 1:30 PM",
-    location: "MAC LAB",
+    title: "Tech Summit",
+    date: "October 11, 2025",
+    time: "10:00 AM - 4:00 PM",
+    location: "Jaywant Auditorium,JSPM RSCOE",
     description:
-      "Discover cutting-edge innovations and real-world case studies on how NVIDIA AI is driving breakthroughs across industries.",
+      "Three inspiring speakers share insights on innovation, technology, and future trends featuring a special session on Artificial Intelligence (AI)",
     image: "/img/Nvidia-event.png",
     status: "LIVE NOW",
   };
